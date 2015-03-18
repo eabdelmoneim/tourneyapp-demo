@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   res.status(200).send('Slackbot is Alive!!!');
 });
 
-router.get('/hellobot', function(req,res,next){
+router.post('/hellobot', function(req,res,next){
 	var userName = req.body.user_name;
 	var botPayload = {
 			text: 'Hello, ' + userName + '!'
