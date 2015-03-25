@@ -35,6 +35,8 @@ router.post('/follow', function(req, res, next) {
 		botPayload = {
 			text: 'No team name for following was found in your message. To follow a team send \'follow @team\''	
 		};
+		
+		return res.status(200).json(botPayload);
 	}
 	
 	for(teamIndex=0; teamIndex<teamNames.length; teamIndex++) {
