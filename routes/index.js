@@ -49,7 +49,7 @@ router.post('/follow', function(req, res, next) {
 	
 	// send response to user with the #channel for the team
 	botPayload = {
-		text: 'Congrats you can receive updates for your team at #' + teamNames[0]	
+		text: 'Congrats you can receive updates for your team at <#' + teamNames[0] +'>'	
 	};
 	
 	return res.status(200).json(botPayload);
