@@ -18,7 +18,7 @@ router.post('/hellobot', function(req,res,next){
 	} else {
 		return res.status(200).end();
 	}
-})
+});
 
 /* POST from slack - follow */
 router.post('/follow', function(req, res, next) {
@@ -52,6 +52,6 @@ router.post('/follow', function(req, res, next) {
 	
 	return res.status(200).json(botPayload);
 	
-})
+});
 
 module.exports = router;
