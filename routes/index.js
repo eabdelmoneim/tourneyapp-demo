@@ -28,6 +28,7 @@ router
 				'/follow',
 				function(req, res, next) {
 					var userName = req.body.user_name;
+					var userId = req.body.user_id;
 					var msgText = req.body.text;
 
 					// find the team names using the @
@@ -67,7 +68,7 @@ router
 					}
 					// send response to user with the #channel for the team
 					botPayload = {
-						text : '@' + theUser.username + ' you are now subscribed. Receive updates for your team at '
+						text : '<@' + userId + '|' + theUser.username + '> you are now subscribed. Receive updates for your team at '
 								+ channelText
 					};
 
