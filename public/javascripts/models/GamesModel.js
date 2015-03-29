@@ -12,32 +12,37 @@ var games = [ {
 // start time?
 } ];
 
-	function getGame(id) {
-		for(var i=0; i<games.length; i++) {
+var gamesService = {
+
+	getGame : function(id) {
+
+		for (var i = 0; i < games.length; i++) {
 			var nextGame = games[i];
-			if(games[i].id === id) {
+			if (games[i].id === id) {
 				return games[i];
 			}
 		}
-		
+
 		return null;
-	}
-	
-	function setScoreForGame(id, homeScore, visitorScore) {
+	},
+
+	setScoreForGame : function(id, homeScore, visitorScore) {
 		var game = getGame(id);
-		
-		if(game != null) {
+
+		if (game != null) {
 			game.homescore = homeScore;
 			game.visitorscore = visitorScore;
 		}
-	}
-	
-	function setPeriodForGame(id, period) {
+	},
+
+	setPeriodForGame : function(id, period) {
 		var game = getGame(id);
-		
-		if(game != null) {
+
+		if (game != null) {
 			game.period = period;
 		}
 	}
-	
-	
+
+};
+
+module.exports = gamesService;
