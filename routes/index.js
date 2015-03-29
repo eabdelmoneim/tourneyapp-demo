@@ -67,7 +67,7 @@ router
 					}
 					// send response to user with the #channel for the team
 					botPayload = {
-						text : '<@' + theUser.username + ' you are now subscribed. Receive updates for your team at '
+						text : '@' + theUser.username + ' you are now subscribed. Receive updates for your team at '
 								+ channelText
 					};
 
