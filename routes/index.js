@@ -1,14 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../public/javascripts/models/UserModel');
-var Team = require('../public/javascripts/models/TeamModel');
+var User = require('../models/UserModel');
+var Team = require('../models/TeamModel');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.status(200).send('Slackbot is Alive!!!');
 });
 
-/* POST from slack - Hello */
+/* 
+ * POST from slack - Hello check to make sure bot is alive 
+ */
 router.post('/hellobot', function(req, res, next) {
 	var userName = req.body.user_name;
 	var botPayload = {
@@ -22,7 +24,9 @@ router.post('/hellobot', function(req, res, next) {
 	}
 });
 
-/* POST from slack - follow */
+/* 
+ * POST from slack - follow command 
+ */
 router
 		.post(
 				'/follow',
