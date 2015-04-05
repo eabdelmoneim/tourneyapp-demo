@@ -73,8 +73,8 @@ router.post('/games', function(req, res, next) {
 	var returnMsgText = 'Score Update: ' + homeTeam.name + ' ' + homeScore + ' ' + visTeam.name + ' ' + visScore + ' Period: ' + period;
 	
 	botPayload = {
-			text: returnMsgText,
-			channel: '#chicagobulls'
+			text: returnMsgText
+			// channel: '#chicagobulls'
 	};
 	
 	return res.status(200).json(botPayload);
