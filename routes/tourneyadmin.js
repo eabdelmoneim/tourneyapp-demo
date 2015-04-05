@@ -74,7 +74,7 @@ router.post('/games', function(req, res, next) {
 	
 	botPayload = {
 			text: returnMsgText,
-			channel: channels
+			channel: '#chicagobulls'
 	};
 	
 	return res.status(200).json(botPayload);
