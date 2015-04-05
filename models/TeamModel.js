@@ -5,14 +5,14 @@
 var teams = [ {
 	id : '1',
 	name : 'Chicago Bulls',
-	channel : 'chicagobulls',
+	channel : '#chicagobulls',
 	wins : '0',
 	losses : '0',
 	followers : [ '1' ]
 }, {
 	id : '2',
 	name : 'Indiana Pacers',
-	channel : 'indianapacers',
+	channel : '#indianapacers',
 	wins : '0',
 	losses : '0',
 	followers : [ '1' ]
