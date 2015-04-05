@@ -3,27 +3,31 @@
  */
 
 var games = [ {
-	id : 1,
-	homeId : 1,
-	visitorId : 2,
+	id : '1',
+	homeId : '1',
+	visitorId : '2',
 	period : 'Not Started',
-	homescore : 0,
-	visitorscore : 0
+	homescore : '0',
+	visitorscore : '0'
 // start time?
 } ];
 
+function getGame(id) {
+	
+	for (var i = 0; i < games.length; i++) {
+		var nextGame = games[i];
+		if (games[i].id === id) {
+			return games[i];
+		}
+	}
+
+	return null;
+}
 var gamesService = {
 
-	getGame : function(id) {
+	getGameWithId : function(id) {
 
-		for (var i = 0; i < games.length; i++) {
-			var nextGame = games[i];
-			if (games[i].id === id) {
-				return games[i];
-			}
-		}
-
-		return null;
+		return getGame(id);
 	},
 
 	setScoreForGame : function(id, homeScore, visitorScore) {

@@ -3,19 +3,19 @@
  */
 
 var teams = [ {
-	id : 1,
+	id : '1',
 	name : 'Chicago Bulls',
 	channel : 'chicagobulls',
-	wins : 0,
-	losses : 0,
-	followers : [ 1 ]
+	wins : '0',
+	losses : '0',
+	followers : [ '1' ]
 }, {
-	id : 2,
+	id : '2',
 	name : 'Indiana Pacers',
 	channel : 'indianapacers',
-	wins : 0,
-	losses : 0,
-	followers : [ 1 ]
+	wins : '0',
+	losses : '0',
+	followers : [ '1' ]
 } ];
 
 var teamsService = {
