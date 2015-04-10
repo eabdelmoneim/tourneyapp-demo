@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
+var Slack = require('node-slackr');
 var User = require('../models/UserModel');
 var Games = require('../models/GamesModel');
 var Team = require('../models/TeamModel');
@@ -12,6 +13,10 @@ router.get('/', function(req, res, next) {
   res.status(200).send('hello from root of tourneyadmin route');
 });
 
+/*
+ * helper function that will parse out string tokens 
+ * that come after '<matchletter>:'
+ */
 function parseMessage(msgText,matchLetter) {
 	
 	var re = new RegExp(matchLetter+':\\w+','i');
@@ -25,6 +30,19 @@ function parseMessage(msgText,matchLetter) {
 	}
 	
 	return null;
+}
+
+/*
+ * helper function for posting JSON to a channel
+ */
+function sendSlackMessageToChannel(msgText,channelName) {
+	slack = new Slack('https://hooks.slack.com/services/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',{
+		channel: channelName,
+		username: 'tourney-app'
+	});
+	
+	slack.notify(msgText);
+	
 }
 
 /*
@@ -72,9 +90,10 @@ router.post('/games', function(req, res, next) {
 	var channels = [homeTeam.channel,visTeam.channel];
 	var returnMsgText = 'Score Update: ' + homeTeam.name + ' ' + homeScore + ' ' + visTeam.name + ' ' + visScore + ' Period: ' + period;
 	
+	sendSlackMessageToChannel(returnMsgText, channels);
+	
 	botPayload = {
 			text: returnMsgText
-			// channel: '#chicagobulls'
 	};
 	
 	return res.status(200).json(botPayload);
