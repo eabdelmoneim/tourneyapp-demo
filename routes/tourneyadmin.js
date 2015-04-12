@@ -95,9 +95,10 @@ router.post('/updatescore', function(req, res, next) {
 	var channels = [homeTeam.channel,visTeam.channel];
 	var returnMsgText = 'Score Update: ' + homeTeam.name + ' ' + homeScore + ' ' + visTeam.name + ' ' + visScore + ' Period: ' + period;
 	
-	// if game has gone final, pre-pend FINAL to string
+	// if game has gone final, pre-pend FINAL to return msg and set period on game
 	if(final) {
 		returnMsgText = "FINAL ".concat(returnMsgText);
+		Games.setPeriodForGame(gameId, "F");
 	}
 	
 	sendSlackMessageToChannel(returnMsgText, channels);
