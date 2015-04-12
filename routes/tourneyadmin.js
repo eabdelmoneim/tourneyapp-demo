@@ -55,25 +55,25 @@ router.post('/updatescore', function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json('no game id found - format g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json('no game id found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
 	}
 	
 	// get the home score
 	var homeScore = parseMessage(msgText,'h');
 	if(homeScore == null){
-		return res.status(200).json('no home score found - format g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json('no home score found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
 	}
 	
 	// get the visitor score
 	var visScore = parseMessage(msgText,'v');
 	if(visScore == null){
-		return res.status(200).json('no visitor score found - format g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json('no visitor score found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
 	}
 	
 	// get the period
 	var period = parseMessage(msgText,'p');
 	if(period == null) {
-		return res.status(200).json('no period found - format g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json('no period found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
 	}
 	
 	var final = false;
@@ -115,6 +115,33 @@ router.post('/updatescore', function(req, res, next) {
  * POST endpoint for receiving notification that a game has started
  */
 router.post('/startgame',function(req, res, next) {
+var msgText = req.body.text;
+	
+	// get the game id
+	var gameId = parseMessage(msgText,'g');
+	if(gameId == null) {
+		return res.status(200).json('no game id found - format start g:<id>');
+	}
+	
+	// find the game
+	var theGame = Games.getGameWithId(gameId);
+	if(theGame == null) {
+		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
+	}
+	
+	var homeTeam = Team.getTeamWithId(theGame.homeId);
+	var visTeam = Team.getTeamWithId(theGame.visitorId);
+	var channels = [homeTeam.channel,visTeam.channel];
+	var returnMsgText = 'Game starting: ' + homeTeam.name + ' vs. ' + visTeam.name;
+	
+	// send message to individual team channels
+	sendSlackMessageToChannel(returnMsgText, channels);
+	
+	var botPayload = {
+			text: returnMsgText
+	};
+	
+	return res.status(200).json(botPayload);
 	
 });
 
