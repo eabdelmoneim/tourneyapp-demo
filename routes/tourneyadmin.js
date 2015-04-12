@@ -49,7 +49,7 @@ function sendSlackMessageToChannel(msgText,channelName) {
  * POST endpoint for receiving a game update
  * format: 'g:<id> h:<score> v:<score> p:<period>'
  */
-router.post('/games', function(req, res, next) {
+router.post('/updatescore', function(req, res, next) {
 	var msgText = req.body.text;
 	
 	// get the game id
@@ -108,6 +108,13 @@ router.post('/games', function(req, res, next) {
 	
 	return res.status(200).json(botPayload);
 	
+	
+});
+
+/*
+ * POST endpoint for receiving notification that a game has started
+ */
+router.post('/startgame',function(req, res, next) {
 	
 });
 
