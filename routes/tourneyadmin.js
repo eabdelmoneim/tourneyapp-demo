@@ -111,11 +111,4 @@ router.post('/games', function(req, res, next) {
 	
 });
 
-/*
- * POST schedule endpoint for scheduling updates
- */
-router.post('/schedule',function(req, res, next) {
-	
-});
-
 module.exports = router;
