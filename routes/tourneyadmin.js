@@ -129,6 +129,9 @@ var msgText = req.body.text;
 		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
 	}
 	
+	// set period of game to 1st period
+	Games.setPeriodForGame(gameId, "1");
+	
 	var homeTeam = Team.getTeamWithId(theGame.homeId);
 	var visTeam = Team.getTeamWithId(theGame.visitorId);
 	var channels = [homeTeam.channel,visTeam.channel];
