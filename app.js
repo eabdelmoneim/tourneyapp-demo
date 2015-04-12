@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var tourneyadmin = require('./routes/tourneyadmin');
+var team = require('./routes/team');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/tourneyadmin', tourneyadmin);
+app.use('/team', team);
 
 // set port
 app.set('port', process.env.PORT || 3000);
