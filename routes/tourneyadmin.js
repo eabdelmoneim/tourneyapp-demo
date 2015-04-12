@@ -25,7 +25,7 @@ function parseMessage(msgText,matchLetter) {
 	//console.log(strArray);
 	if(strArray != null) {
 		for(i=0; i<strArray.length; i++) {
-			return strArray[i].substr(2);
+			return strArray[i].substr(2).trim();
 		}
 	}
 	
@@ -46,7 +46,7 @@ function sendSlackMessageToChannel(msgText,channelName) {
 }
 
 /*
- * POST receiving a game update
+ * POST endpoint for receiving a game update
  * format: 'g:<id> h:<score> v:<score> p:<period>'
  */
 router.post('/games', function(req, res, next) {
@@ -76,6 +76,11 @@ router.post('/games', function(req, res, next) {
 		return res.status(200).json('no period found - format g:<id> h:<home score> v:<visitor score> p:<period>');
 	}
 	
+	var final = false;
+	if(period == 'F') {
+		final = true;
+	}
+	
 	// update info on the game
 	Games.setScoreForGame(gameId, homeScore, visScore);
 	Games.setPeriodForGame(gameId, period);
@@ -90,6 +95,11 @@ router.post('/games', function(req, res, next) {
 	var channels = [homeTeam.channel,visTeam.channel];
 	var returnMsgText = 'Score Update: ' + homeTeam.name + ' ' + homeScore + ' ' + visTeam.name + ' ' + visScore + ' Period: ' + period;
 	
+	// if game has gone final, pre-pend FINAL to string
+	if(final) {
+		returnMsgText = "FINAL ".concat(returnMsgText);
+	}
+	
 	sendSlackMessageToChannel(returnMsgText, channels);
 	
 	botPayload = {
@@ -98,6 +108,13 @@ router.post('/games', function(req, res, next) {
 	
 	return res.status(200).json(botPayload);
 	
+	
+});
+
+/*
+ * POST schedule endpoint for scheduling updates
+ */
+router.post('/schedule',function(req, res, next) {
 	
 });
 
