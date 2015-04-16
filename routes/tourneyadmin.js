@@ -14,6 +14,17 @@ router.get('/', function(req, res, next) {
 });
 
 /*
+ * helper function to create JSON payload
+ */
+function createBotPayload(payloadText) {
+	var botPayload = {
+			text: payloadText
+	};
+	
+	return botPayload;
+}
+
+/*
  * helper function that will parse out string tokens 
  * that come after '<matchletter>:'
  */
@@ -55,25 +66,25 @@ router.post('/updatescore', function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json('no game id found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json(createBotPayload('no game id found - format score g:<id> h:<home score> v:<visitor score> p:<period>'));
 	}
 	
 	// get the home score
 	var homeScore = parseMessage(msgText,'h');
 	if(homeScore == null){
-		return res.status(200).json('no home score found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json(createBotPayload('no home score found - format score g:<id> h:<home score> v:<visitor score> p:<period>'));
 	}
 	
 	// get the visitor score
 	var visScore = parseMessage(msgText,'v');
 	if(visScore == null){
-		return res.status(200).json('no visitor score found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json(createBotPayload('no visitor score found - format score g:<id> h:<home score> v:<visitor score> p:<period>'));
 	}
 	
 	// get the period
 	var period = parseMessage(msgText,'p');
 	if(period == null) {
-		return res.status(200).json('no period found - format score g:<id> h:<home score> v:<visitor score> p:<period>');
+		return res.status(200).json(createBotPayload('no period found - format score g:<id> h:<home score> v:<visitor score> p:<period>'));
 	}
 	
 	var final = false;
@@ -86,7 +97,7 @@ router.post('/updatescore', function(req, res, next) {
 	Games.setPeriodForGame(gameId, period);
 	var theGame = Games.getGameWithId(gameId);
 	if(theGame == null) {
-		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
+		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'))
 	}
 	
 	// get Teams to find channels and send score update to respective channels
@@ -122,13 +133,13 @@ router.post('/startgame',function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json('no game id found - format start g:<id>');
+		return res.status(200).json(createBotPayload('no game id found - format start g:<id>'));
 	}
 	
 	// find the game
 	var theGame = Games.getGameWithId(gameId);
 	if(theGame == null) {
-		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
+		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'))
 	}
 	
 	// set period of game to 1st period
@@ -161,18 +172,18 @@ router.post('/getscore', function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json('no game id found - format start g:<id>');
+		return res.status(200).json(createBotPayload('no game id found - format start g:<id>'))
 	}
 	
 	// find the game
 	var theGame = Games.getGameWithId(gameId);
 	if(theGame == null) {
-		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
+		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'))
 	}
 	
 	// if game hasn't started send message that game hasn't started
 	if(theGame.period == '0') {
-		return res.status(200).json('Game has not started - game scheduled for ' + Games.getStartTimeForGame(gameId).toString() + " on court " + theGame.court);
+		return res.status(200).json(createBotPayload('Game has not started - game scheduled for ' + Games.getStartTimeForGame(gameId).toString() + " on court " + theGame.court));
 	}
 	
 	// get Teams to find channels and send score update to respective channels
