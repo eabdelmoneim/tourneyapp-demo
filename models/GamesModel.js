@@ -6,11 +6,15 @@ var games = [ {
 	id : '1',
 	homeId : '1',
 	visitorId : '2',
-	period : 'Not Started',
+	period : '0',
 	homescore : '0',
-	visitorscore : '0'
-// start time?
+	visitorscore : '0',
+	court: "A"
+   // start time?
 } ];
+
+// hard coded to 30 minutes from now
+var startTime = new Date(Date.now() + 30*60000);
 
 function getGame(id) {
 	
@@ -45,6 +49,10 @@ var gamesService = {
 		if (game != null) {
 			game.period = period;
 		}
+	},
+	
+	getStartTimeForGame : function(id) {
+		return startTime;
 	}
 
 };
