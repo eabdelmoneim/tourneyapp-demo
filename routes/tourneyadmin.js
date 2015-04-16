@@ -139,7 +139,7 @@ router.post('/startgame',function(req, res, next) {
 	// find the game
 	var theGame = Games.getGameWithId(gameId);
 	if(theGame == null) {
-		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'))
+		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'));
 	}
 	
 	// set period of game to 1st period
@@ -172,13 +172,13 @@ router.post('/getscore', function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json(createBotPayload('no game id found - format start g:<id>'))
+		return res.status(200).json(createBotPayload('no game id found - format score g:<id>'));
 	}
 	
 	// find the game
 	var theGame = Games.getGameWithId(gameId);
 	if(theGame == null) {
-		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'))
+		return res.status(200).json(createBotPayload('Error - no game with ID ' + gameId + ' found'));
 	}
 	
 	// if game hasn't started send message that game hasn't started
