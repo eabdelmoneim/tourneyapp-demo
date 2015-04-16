@@ -172,7 +172,7 @@ router.post('/getscore', function(req, res, next) {
 	
 	// if game hasn't started send message that game hasn't started
 	if(theGame.period == '0') {
-		return res.status(200).json('Game has not started - game scheduled for ' + Games.getStartTimeForGame(gameId).toString());
+		return res.status(200).json('Game has not started - game scheduled for ' + Games.getStartTimeForGame(gameId).toString() + " on court " + theGame.court);
 	}
 	
 	// get Teams to find channels and send score update to respective channels
