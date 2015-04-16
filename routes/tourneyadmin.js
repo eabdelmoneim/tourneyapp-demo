@@ -172,7 +172,7 @@ router.post('/getscore', function(req, res, next) {
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
 	if(gameId == null) {
-		return res.status(200).json(createBotPayload('no game id found - format score g:<id>'));
+		return res.status(200).json(createBotPayload('no game with id found - format score g:<id>'));
 	}
 	
 	// find the game
