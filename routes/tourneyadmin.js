@@ -116,7 +116,8 @@ router.post('/updatescore', function(req, res, next) {
  * POST endpoint for receiving notification that a game has started
  */
 router.post('/startgame',function(req, res, next) {
-var msgText = req.body.text;
+	
+	var msgText = req.body.text;
 	
 	// get the game id
 	var gameId = parseMessage(msgText,'g');
@@ -147,6 +148,47 @@ var msgText = req.body.text;
 	
 	return res.status(200).json(botPayload);
 	
+});
+
+/*
+ * POST request to get a score update for a specific game
+ * FORMAT: score g:<game id>
+ */
+router.post('/getscore', function(req, res, next) {
+	
+	var msgText = req.body.text;
+	
+	// get the game id
+	var gameId = parseMessage(msgText,'g');
+	if(gameId == null) {
+		return res.status(200).json('no game id found - format start g:<id>');
+	}
+	
+	// find the game
+	var theGame = Games.getGameWithId(gameId);
+	if(theGame == null) {
+		return res.status(200).json('Error - no game with ID ' + gameId + ' found');
+	}
+	
+	// if game hasn't started send message that game hasn't started
+	if(theGame.period == '0') {
+		return res.status(200).json('Game has not started - game scheduled for ' + Games.getStartTimeForGame(gameId).toString());
+	}
+	
+	// get Teams to find channels and send score update to respective channels
+	var homeTeam = Team.getTeamWithId(theGame.homeId);
+	var visTeam = Team.getTeamWithId(theGame.visitorId);
+	var channels = [homeTeam.channel,visTeam.channel];
+	var returnMsgText = 'Score Update: ' + homeTeam.name + ' ' + theGame.homescore + ' ' + visTeam.name + ' ' + theGame.visitorscore + ' Period: ' + theGame.period;
+	
+	// send message to individual team channels
+	sendSlackMessageToChannel(returnMsgText, channels);
+	
+	var botPayload = {
+			text: returnMsgText
+	};
+	
+	return res.status(200).json(botPayload);
 });
 
 module.exports = router;
