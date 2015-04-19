@@ -8,6 +8,36 @@ var User = require('../models/UserModel');
 var Games = require('../models/GamesModel');
 var Team = require('../models/TeamModel');
 
+// check for games that are starting
+// if starting notify followers
+function checkGamesStarting() {
+	console.log(new Date(Date.now()) + ": checking for games that are starting");
+	
+	var gamesList = Games.getAllGames();
+	
+	for(i=0; i<gamesList.length; i++) {
+		var nextGame = gamesList[i];
+		var nextStartTime = Games.getStartTimeForGame(nextGame.id);
+		var timeDiff = nextStartTime.getTime() - Date.now();
+		console.log('game ' + nextGame.id + ': starts in ' + (Math.round(timeDiff/60000)) + ' minutes');
+		
+		// if the time difference is less than 15 minutes away
+		// send msg to 
+		if(timeDiff>0 && timeDiff<900000) {
+			var homeTeam = Team.getTeamWithId(nextGame.homeId);
+			var visTeam = Team.getTeamWithId(nextGame.visitorId);
+			var channels = [homeTeam.channel,visTeam.channel];
+			var returnMsgText = 'Next game starting in ' + (Math.round(timeDiff/60000)) + ' minutes: ' + homeTeam.name + ' vs. ' + visTeam.name + ' on court ' + nextGame.court;
+			
+			sendSlackMessageToChannel(returnMsgText, channels);
+		}
+	}
+}
+
+//initialize timer
+var gameTimer = setInterval(checkGamesStarting, 600000);
+console.log(new Date(Date.now()).toString() + ':initialzed game start timer');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.status(200).send('hello from root of tourneyadmin route');
