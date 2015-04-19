@@ -16,6 +16,8 @@ var games = [ {
 // hard coded to 30 minutes from now
 var startTime = new Date(Date.now() + 30*60000);
 
+//console.log("start time has been set: " + startTime);
+
 function getGame(id) {
 	
 	for (var i = 0; i < games.length; i++) {
@@ -53,6 +55,10 @@ var gamesService = {
 	
 	getStartTimeForGame : function(id) {
 		return startTime;
+	},
+	
+	getAllGames : function() {
+		return games;
 	}
 
 };
